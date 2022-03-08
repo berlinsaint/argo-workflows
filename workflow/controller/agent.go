@@ -135,7 +135,7 @@ func (woc *wfOperationCtx) createAgentPod(ctx context.Context) (*apiv1.Pod, erro
 				RunAsUser:    pointer.Int64Ptr(8737),
 			},
 			ServiceAccountName:           serviceAccountName,
-			AutomountServiceAccountToken: pointer.BoolPtr(false),
+			AutomountServiceAccountToken: woc.execWf.Spec.AutomountServiceAccountToken,
 			Volumes: []apiv1.Volume{
 				{
 					Name: tokenVolumeName,
