@@ -2,12 +2,12 @@ name: CI
 on:
   push:
     branches:
-      - "master"
+      - "dev"
       - "release-*"
       - "!release-2.8"
   pull_request:
     branches:
-      - "master"
+      - "dev"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
