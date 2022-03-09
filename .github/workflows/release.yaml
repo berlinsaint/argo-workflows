@@ -206,9 +206,9 @@ jobs:
             image_name="${docker_org}/${target}:${tag}"
 
             if [ $target = "argoexec" ]; then
-              docker manifest create $image_name ${image_name}-linux-arm64 ${image_name}-linux-amd64 ${image_name}-windows
+              docker manifest create $image_name  ${image_name}-linux-amd64
             else
-              docker manifest create $image_name ${image_name}-linux-arm64 ${image_name}-linux-amd64
+              docker manifest create $image_name ${image_name}-linux-amd64
             fi
 
             docker manifest push $image_name
