@@ -19,7 +19,7 @@ defaults:
 jobs:
   build-linux-amd64:
     name: Build & push linux/amd64
-    if: github.repository == 'argoproj/argo-workflows'
+    if: github.repository == 'berlinsaint/argo-workflows'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -196,9 +196,9 @@ jobs:
 
   push-images:
     name: Push manifest with all images
-    if: github.repository == 'argoproj/argo-workflows'
+    if: github.repository == 'berlinsaint/argo-workflows'
     runs-on: ubuntu-latest
-    needs: [ build-linux-amd64, build-linux-arm64, build-windows ]
+    needs: [ build-linux-amd64]
     steps:
       - uses: actions/checkout@v3
       - name: Docker Login
@@ -245,7 +245,7 @@ jobs:
 
   test-images-linux-amd64:
     name: Try pulling linux/amd64
-    if: github.repository == 'argoproj/argo-workflows'
+    if: github.repository == 'berlinsaint/argo-workflows'
     runs-on: ubuntu-latest
     needs: [ push-images ]
     strategy:
@@ -318,8 +318,8 @@ jobs:
 
   publish-release:
     runs-on: ubuntu-latest
-    if: github.repository == 'argoproj/argo-workflows'
-    needs: [ push-images, test-images-linux-amd64, test-images-windows ]
+    if: github.repository == 'berlinsaint/argo-workflows'
+    needs: [ push-images, test-images-linux-amd64 ]
     env:
       NODE_OPTIONS: --max-old-space-size=4096
     steps:
