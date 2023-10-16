@@ -366,7 +366,7 @@ func (ae *AgentExecutor) executePluginTemplate(ctx context.Context, tmpl wfv1.Te
 	pluginJson, _ := tmpl.Plugin.MarshalJSON()
 	var object map[string]interface{}
 	_ = json.Unmarshal(pluginJson, &object)
-	for _, key := range object {
+	for key, _ := range object {
 		for _, plug := range ae.plugins {
 			ae.log.WithFields(log.Fields{"plugName": plug.Name(), "key": key}).Info("Looping Plugins")
 
