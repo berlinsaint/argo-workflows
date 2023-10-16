@@ -368,6 +368,8 @@ func (ae *AgentExecutor) executePluginTemplate(ctx context.Context, tmpl wfv1.Te
 	_ = json.Unmarshal(pluginJson, &object)
 	for _, key := range object {
 		for _, plug := range ae.plugins {
+			ae.log.WithFields(log.Fields{"plugName": plug.Name(), "key": key}).Info("Looping Plugins")
+
 			if plug.Name() == key {
 				if err := plug.ExecuteTemplate(ctx, args, reply); err != nil {
 					return 0, err
