@@ -20,21 +20,27 @@ import (
 type Client struct {
 	address string
 	token   string
+	name    string
 	client  http.Client
 	invalid map[string]bool
 	backoff wait.Backoff
 }
 
-func New(address, token string, timeout time.Duration, backoff wait.Backoff) Client {
+func New(address, token, name string, timeout time.Duration, backoff wait.Backoff) Client {
 	return Client{
 		address: address,
 		token:   token,
+		name:    name,
 		client: http.Client{
 			Timeout: timeout,
 		},
 		invalid: map[string]bool{},
 		backoff: backoff,
 	}
+}
+
+func (p *Client) Name() string {
+	return p.name
 }
 
 func (p *Client) Call(ctx context.Context, method string, args interface{}, reply interface{}) error {

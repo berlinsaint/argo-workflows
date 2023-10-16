@@ -363,17 +363,38 @@ func (ae *AgentExecutor) executePluginTemplate(ctx context.Context, tmpl wfv1.Te
 		Template: &tmpl,
 	}
 	reply := &executorplugins.ExecuteTemplateReply{}
-	for _, plug := range ae.plugins {
-		if err := plug.ExecuteTemplate(ctx, args, reply); err != nil {
-			return 0, err
-		} else if reply.Node != nil {
-			*result = *reply.Node
-			if reply.Node.Phase == wfv1.NodeSucceeded {
-				return 0, nil
+	pluginJson, _ := tmpl.Plugin.MarshalJSON()
+	var object map[string]interface{}
+	_ = json.Unmarshal(pluginJson, &object)
+	for _, key := range object {
+		for _, plug := range ae.plugins {
+			if plug.Name() == key {
+				if err := plug.ExecuteTemplate(ctx, args, reply); err != nil {
+					return 0, err
+				} else if reply.Node != nil {
+					*result = *reply.Node
+					if reply.Node.Phase == wfv1.NodeSucceeded {
+						return 0, nil
+					}
+					return reply.GetRequeue(), nil
+				} else {
+					break
+				}
 			}
-			return reply.GetRequeue(), nil
 		}
 	}
+	//
+	//for _, plug := range ae.plugins {
+	//	if err := plug.ExecuteTemplate(ctx, args, reply); err != nil {
+	//		return 0, err
+	//	} else if reply.Node != nil {
+	//		*result = *reply.Node
+	//		if reply.Node.Phase == wfv1.NodeSucceeded {
+	//			return 0, nil
+	//		}
+	//		return reply.GetRequeue(), nil
+	//	}
+	//}
 	return 0, fmt.Errorf("no plugin executed the template")
 }
 

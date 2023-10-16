@@ -12,8 +12,8 @@ import (
 
 type plugin struct{ rpc.Client }
 
-func New(address, token string) *plugin {
-	return &plugin{Client: rpc.New(address, token, 30*time.Second, wait.Backoff{
+func New(address, token, name string) *plugin {
+	return &plugin{Client: rpc.New(address, token, name, 30*time.Second, wait.Backoff{
 		Duration: time.Second,
 		Jitter:   0.2,
 		Factor:   2,
@@ -23,4 +23,8 @@ func New(address, token string) *plugin {
 
 func (p *plugin) ExecuteTemplate(ctx context.Context, args executorplugins.ExecuteTemplateArgs, reply *executorplugins.ExecuteTemplateReply) error {
 	return p.Call(ctx, "template.execute", args, reply)
+}
+
+func (p *plugin) Name() string {
+	return p.Name()
 }

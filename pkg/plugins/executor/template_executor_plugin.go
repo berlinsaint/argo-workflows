@@ -46,4 +46,5 @@ type TemplateExecutor interface {
 	//     Responses:
 	//       200: executeTemplate
 	ExecuteTemplate(ctx context.Context, args ExecuteTemplateArgs, reply *ExecuteTemplateReply) error
+	Name() string
 }

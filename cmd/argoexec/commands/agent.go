@@ -121,7 +121,7 @@ func initAgentExecutor() *executor.AgentExecutor {
 		if err != nil {
 			log.Fatal(err)
 		}
-		plugins = append(plugins, rpc.New(address, string(data)))
+		plugins = append(plugins, rpc.New(address, string(data), name))
 	}
 
 	return executor.NewAgentExecutor(clientSet, restClient, config, namespace, workflowName, workflowUID, plugins)

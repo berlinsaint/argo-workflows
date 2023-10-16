@@ -94,3 +94,7 @@ func (a alwaysSucceededPlugin) ExecuteTemplate(_ context.Context, _ executorplug
 	reply.Requeue = &metav1.Duration{Duration: a.requeue}
 	return nil
 }
+
+func (a alwaysSucceededPlugin) Name() string {
+	return "alwaysSucceededPlugin"
+}
