@@ -26,5 +26,5 @@ func (p *plugin) ExecuteTemplate(ctx context.Context, args executorplugins.Execu
 }
 
 func (p *plugin) Name() string {
-	return p.Name()
+	return p.Client.Name()
 }
